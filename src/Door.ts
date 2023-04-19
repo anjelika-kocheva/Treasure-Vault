@@ -24,7 +24,6 @@ export class Door extends Container {
 		this.handleShadow.anchor.set(0.5);
 		this.handleShadow.x = 3;
 		this.handleShadow.y = 3;
-		this.handleContainer.addChild(this.handleShadow);
 
 		// handle
 		this.handle = Sprite.from("handle.png");
@@ -32,8 +31,14 @@ export class Door extends Container {
 		this.handle.anchor.set(0.53, 0.5);
 		this.handle.x = 0;
 		this.handle.y = 0;
-		this.handleContainer.addChild(this.handle);
 
+
+		this.handleContainer.addChild(this.handleShadow, this.handle);
+
+		this.handleContainer.pivot.set(0.5);
+		this.handleContainer.pivot.x = this.handle.anchor.x;
+		this.handleContainer.pivot.y = this.handle.anchor.y;
+		this.handleContainer.eventMode = "dynamic";
 		this.addChild(this.handleContainer);
 
 	}
