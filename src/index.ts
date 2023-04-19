@@ -4,6 +4,7 @@ import * as PIXI from 'pixi.js'
 import { Background } from './Background'
 import { Door } from "./Door"
 import { OpenDoor } from './OpenDoor';
+import { Blink } from './Blink';
 
 // logic
 import { SecretPassowrd } from './SecretPassowrd';
@@ -20,7 +21,8 @@ const app = new PIXI.Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
-	resizeTo: window
+	width: 1440,
+	height: 900
 });
 
 const mainContainer = new PIXI.Container();
@@ -41,10 +43,9 @@ fullClosedDoor.y = app.screen.height / 2;
 const fullOpenDoor = new OpenDoor(scaleDown);
 
 mainContainer.addChild(fullOpenDoor);
-
+fullOpenDoor.alpha = 0;
 fullOpenDoor.x = app.screen.width/ 1.35;
 fullOpenDoor.y = app.screen.height / 2; 
-fullOpenDoor.visible = false;
 
 let count = new TimerApp.Timer;
 let time = setInterval(function(){
@@ -59,6 +60,7 @@ let rotation: any = "0";
 
 function reset(){
 	count.second = 0;
+	count.zeroPlaceholder = "0";
 	console.clear();
 	get = new SecretPassowrd.GetPass;
 	get.show();
@@ -76,13 +78,14 @@ function rotateHandle(container: PIXI.Container, rotateValue: number, animationT
 
 function win(){
 	clearInterval(time);
-	fullOpenDoor.visible = true;
-	fullClosedDoor.visible = false;
-	
+	fullOpenDoor.alpha = 1;
+	fullClosedDoor.alpha = 0;
+	blinks.alpha = 1;
 	setTimeout(function() {
 		reset();
-		fullOpenDoor.visible = false;
-		fullClosedDoor.visible = true;
+		fullOpenDoor.alpha = 0;
+		fullClosedDoor.alpha = 1;
+		blinks.alpha = 0;
 		setInterval(function(){
 			count.countUp();
 		}, 1000)
@@ -117,3 +120,14 @@ function clickHandle(e: PIXI.FederatedMouseEvent): void {
 }
 
 fullClosedDoor.handleContainer.on("click", clickHandle, fullClosedDoor);
+
+let blink1 = new Blink(scaleDown, 593, 450);
+let blink2 = new Blink(scaleDown, 705, 440);
+let blink3 = new Blink(scaleDown, 805, 500);
+
+let blinks = new PIXI.Container();
+
+blinks.addChild(blink1, blink2, blink3);
+blinks.alpha = 0;
+
+mainContainer.addChild(blinks);
