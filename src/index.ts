@@ -1,5 +1,6 @@
 import * as PIXI from 'pixi.js'
 import { Background } from './Background'
+import { Door } from "./Door"
 
 const app = new PIXI.Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -15,6 +16,13 @@ const scaleDown = app.screen.width / 5995;
 const background: Background = new Background(app.screen.width, app.screen.height, scaleDown);
 
 mainContainer.addChild(background);
+
+const fullClosedDoor = new Door(scaleDown);
+
+mainContainer.addChild(fullClosedDoor);
+
+fullClosedDoor.x = app.screen.width / 2;
+fullClosedDoor.y = app.screen.height / 2; 
 
 
 
