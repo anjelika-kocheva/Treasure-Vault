@@ -6,7 +6,6 @@ export class Blink extends Container {
     constructor(scaleDown:number, x: number, y: number){
         super();
 
-        // shadow
         this.blink = Sprite.from("blink.png");
         this.blink.scale.set(scaleDown);
         this.blink.anchor.set(0.5);
