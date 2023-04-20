@@ -1,7 +1,7 @@
 export module SecretPassowrd {
 
 	export class CreatePass {
-		public fullCombination: any[][] = [[], [], []];
+		public fullCombination: any[] = [[], [], []];
 
 		constructor(max: number, min: number) {
 			for (let i = 0; i < 3; ++i) {
@@ -15,7 +15,7 @@ export module SecretPassowrd {
 	export class GetPass {
 		public password = new SecretPassowrd.CreatePass(9, 1).fullCombination;
 		// make a copy (get value without reference)
-		public copyOfPassword: any[][] = JSON.parse(JSON.stringify(this.password));
+		public copyOfPassword: any[] = [...this.password];
 
 		show() {
 			console.log("Shhs the secret password is:");
